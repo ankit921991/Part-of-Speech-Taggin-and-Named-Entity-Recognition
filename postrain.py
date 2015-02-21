@@ -3,6 +3,7 @@ import sys
 import re
 import random
 import subprocess
+import perceplearn
 
 inputPath = sys.argv[1]
 outputPath = sys.argv[2]
@@ -14,8 +15,8 @@ lines = f.readlines()
 f.close()
 
 
-
-f = open(outputPath,"w")
+trainingFile = "pos_training.txt" 
+f = open(trainingFile,"w")
 for line in lines:
     i=0
     line = re.sub("\n+","",line)
@@ -36,7 +37,8 @@ for line in lines:
             nextWord = words[i+1]
             nextWord = words[i+1].split("/")
             nextWord = next + nextWord[0]
-            finalWord = prevWord + current[0] + nextWord
+            #finalWord = prevWord +" "+ current[0] + " " +nextWord
+            finalWord = prevWord +" "+ current[0] + " " +nextWord
             finalClass = current[1]
             finalClass = finalClass + " " + finalWord + "\n"
             i +=1
@@ -47,7 +49,8 @@ for line in lines:
             current = words[i]
             current = words[i].split("/")
             nextWord = next
-            finalWord = prevWord + current[0] + nextWord
+            #finalWord = prevWord + " " + current[0] + " " + nextWord
+            finalWord = prevWord + " " + current[0] + " " + nextWord
             finalClass = current[1]
             finalClass = finalClass + " " + finalWord + "\n"
             i +=1
@@ -60,16 +63,20 @@ for line in lines:
             nextWord = words[i+1]
             nextWord = words[i+1].split("/")
             nextWord = next + nextWord[0]
-            finalWord = prevWord + current[0] + nextWord
+            #finalWord = prevWord + " " + current[0] + " " + nextWord
+            finalWord = prevWord + " " + current[0] + " " + nextWord
             finalClass = current[1]
             finalClass = finalClass + " " + finalWord + "\n"
             i +=1    
         else:
             current = words[i]
-            finalWord  = prev+current[0]+next
+            #finalWord  = prev+" " +current[0]+" " +next
+            finalWord  = prev+" " + current[0] +" " +next
             finalClass = current[1]
             i+=1
         f.write(finalClass)
 f.close()
+perceplearn.perceplearn(trainingFile,outputPath)
 #subprocess.call(["/home/ankit/Desktop/csci544-hw2/perceplearn.py",outputPath,"/home/ankit/Desktop/csci544-hw2/pos.nb"])
 #os.system("/home/ankit/Desktop/csci544-hw2/perceplearn.py "+outputPath+" /home/ankit/Desktop/csci544-hw2/pos.nb")
+
